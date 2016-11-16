@@ -1,10 +1,12 @@
 package com.udacity.stockhawk.ui;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -31,7 +33,8 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,
         SwipeRefreshLayout.OnRefreshListener,
-        StockAdapter.StockAdapterOnClickHandler {
+        StockAdapter.StockAdapterOnClickHandler,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final int STOCK_LOADER = 0;
     @BindView(R.id.recycler_view)
@@ -90,6 +93,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -187,5 +204,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals(getString(R.string.pref_invalid_symbol_key))) {
+            notifyInvalidSymbol();
+        }
+    }
+
+    private void notifyInvalidSymbol() {
+        String symbol = PrefUtils.getInvalidSymbol(this);
+        if(!symbol.isEmpty()) {
+            Toast.makeText(this, getString(R.string.error_stock_not_found, symbol), Toast.LENGTH_SHORT).show();
+        }
     }
 }

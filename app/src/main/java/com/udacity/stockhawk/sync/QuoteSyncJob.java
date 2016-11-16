@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
@@ -67,8 +68,17 @@ public final class QuoteSyncJob {
             while (iterator.hasNext()) {
                 String symbol = iterator.next();
 
-
                 Stock stock = quotes.get(symbol);
+
+                // If the name is null, then the symbol doesn't exist
+                if (stock.getName() == null) {
+                    // Log error
+                    PrefUtils.setInvalidSymbol(context, symbol);
+                    // Remove from preference
+                    PrefUtils.removeStock(context, symbol);
+                    continue;
+                }
+
                 StockQuote quote = stock.getQuote();
 
                 float price = quote.getPrice().floatValue();
