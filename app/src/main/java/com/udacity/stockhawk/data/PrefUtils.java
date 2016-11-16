@@ -88,4 +88,20 @@ public final class PrefUtils {
         editor.apply();
     }
 
+    public static String getInvalidSymbol(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(context.getString(R.string.pref_invalid_symbol_key), "");
+    }
+
+    public static void setInvalidSymbol(Context context, String symbol) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor spe = sp.edit();
+        spe.putString(context.getString(R.string.pref_invalid_symbol_key), symbol);
+        spe.apply();
+    }
+
+    public static void resetStockStatus(Context context) {
+        setInvalidSymbol(context, "");
+    }
+
 }
