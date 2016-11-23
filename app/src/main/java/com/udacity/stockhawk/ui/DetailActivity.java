@@ -25,7 +25,10 @@ import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Iris on 17/11/2016.
@@ -38,7 +41,6 @@ public class DetailActivity extends AppCompatActivity implements
     private String mStockSymbol;
     private Uri mStockUri;
     private ArrayList<Entry> mStockData;
-    private ArrayList<Long> mStockTime;
     private LineChart mChart;
 
     @Override
@@ -67,19 +69,19 @@ public class DetailActivity extends AppCompatActivity implements
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setCenterAxisLabels(true);
+        xAxis.setTextColor(Color.WHITE);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
 
             private SimpleDateFormat mFormat = new SimpleDateFormat("dd MMM yyyy");
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                float max = axis.getAxisMaximum();
-                if (value < 0 || value > max) { return String.valueOf(value); }
-
-                long milli = mStockTime.get((int) value);
-                return mFormat.format(new Date(milli));
+                return mFormat.format(new Date((long) value));
             }
         });
+
+        YAxis yAxis = mChart.getAxisLeft();
+        yAxis.setTextColor(Color.WHITE);
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setEnabled(false);
@@ -101,21 +103,21 @@ public class DetailActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mStockData = new ArrayList<>();
-        mStockTime = new ArrayList<>();
         if (data != null && data.moveToFirst()) {
             String[] history = data.getString(Contract.Quote.POSITION_HISTORY)
                     .split("\\n+");
-            int count = history.length;
-            int i = 0;
 
-            for ( i = 0; i < count; i++ ) {
-                String entry = history[i];
+            // reverse the array
+            List<String> listHistory = Arrays.asList(history);
+            Collections.reverse(listHistory);
+            history = (String[]) listHistory.toArray();
+
+            for (String entry: history) {
                 String[] set = entry.split(",\\s+");
                 long time = Long.parseLong(set[0]);
                 float value = Float.valueOf(set[1]);
 
-                mStockTime.add(time);
-                mStockData.add(new Entry(i, value));
+                mStockData.add(new Entry(time, value));
 
             }
 
