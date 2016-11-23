@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Timber.d("Symbol clicked: %s", symbol);
         Uri uri = Contract.Quote.makeUriForStock(symbol);
         Intent intent = new Intent(this, DetailActivity.class)
-                .setData(uri);
+                .putExtra(getString(R.string.intent_symbol), symbol);
         startActivity(intent);
 
     }
