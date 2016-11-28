@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Stock Hawk</string>
     <string name="title_activity_detail">Detail</string>
+    <string name="title_widget_stock">Stock Hawk</string>
 
     <string name="intent_symbol" translatable="false">symbol</string>
 
