@@ -4,7 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/widget"
-    android:background="#fff">
+    android:background="@color/colorWhite">
+    <TextView
+        android:text="@string/title_widget_stock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorWhite"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:id="@+id/title"
+        android:layout_gravity="center"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
     <ListView
         android:layout_width="match_parent"
@@ -12,8 +28,13 @@
         android:id="@+id/listview_stocks"/>
 
     <TextView
-        android:text="@string/error_no_stocks"
+        android:text="@string/error_no_stocks_widget"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/listview_stocks_empty" />
+        android:layout_height="match_parent"
+        android:id="@+id/listview_stocks_empty"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp" />
+    </FrameLayout>
 </LinearLayout>

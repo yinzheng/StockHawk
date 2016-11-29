@@ -2,5 +2,7 @@
     android:initialLayout="@layout/widget_stock"
     android:minWidth="@dimen/widget_stock_default_width"
     android:minHeight="@dimen/widget_stock_default_height"
-    android:updatePeriodMillis="0">
+    android:minResizeHeight="@dimen/widget_stock_min_height"
+    android:updatePeriodMillis="0"
+    android:resizeMode="vertical" >
 </appwidget-provider>
