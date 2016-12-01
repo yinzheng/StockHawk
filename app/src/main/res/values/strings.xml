@@ -3,6 +3,10 @@
     <string name="title_activity_detail">Detail</string>
     <string name="title_widget_stock">Stock Hawk</string>
 
+    <string name="button_add_stock">Add stock</string>
+    <string name="button_display_percentage">Change display mode to percentage</string>
+    <string name="button_display_dollar">Change display mode to dollar</string>
+
     <string name="intent_symbol" translatable="false">symbol</string>
 
     <string name="pref_stocks_initialized_key" translatable="false">initialized</string>

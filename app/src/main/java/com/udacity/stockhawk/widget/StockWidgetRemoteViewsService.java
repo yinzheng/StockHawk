@@ -93,8 +93,13 @@ public class StockWidgetRemoteViewsService extends RemoteViewsService {
                 String change = dollarFormatWithPlus.format(rawAbsoluteChange);
 
                 views.setTextViewText(R.id.symbol, symbol);
+                views.setContentDescription(R.id.symbol, getString(R.string.a11y_symbol, symbol));
+
                 views.setTextViewText(R.id.price, price);
+                views.setContentDescription(R.id.price, getString(R.string.a11y_price, price));
+
                 views.setTextViewText(R.id.change, change);
+                views.setContentDescription(R.id.change, getString(R.string.a11y_change, change));
 
                 final Intent fillInIntent = new Intent();
                 fillInIntent.putExtra(getString(R.string.intent_symbol), symbol);
